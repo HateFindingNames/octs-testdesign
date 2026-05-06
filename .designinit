@@ -1,0 +1,51 @@
+# Overwriting PDK_ROOT to use SG13CMOS5L PDK
+# !! obsolete as of image version 2026.04 !!
+# export PDK_ROOT="$DESIGNS/IHP-Open-PDK"
+
+export PDK="ihp-sg13cmos5l"
+export PDKPATH="$PDK_ROOT/$PDK"
+export STD_CELL_LIBRARY=sg13cmos5l_stdcell
+export SPICE_USERINIT_DIR=$PDKPATH/libs.tech/ngspice
+export KLAYOUT_PATH=$PDKPATH/libs.tech/klayout:$PDKPATH/libs.tech/klayout/tech
+
+export XSCHEMRC="$DESIGNS/xschemrc"
+export TERMINALRC="/$HOME/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-terminal.xml"
+
+if [ ! -f "$XSCHEMRC" ]; then
+   touch $XSCHEMRC;
+fi
+
+# Building xschemrc file
+cat $PDKPATH/libs.tech/xschem/xschemrc > $XSCHEMRC
+echo "set dircolor([file dirname [info script]]) green" >> $XSCHEMRC
+echo "set editor { xterm -geometry 100x40 -e nano }" >> $XSCHEMRC
+# echo "set terminal {xterm -geometry 120x48 -fn 9x15 -fs 11 -bg #181818 -fg white -cr white -ms white }" >> $XSCHEMRC
+echo "set terminal {xterm -geometry 120x48 -fa 'Monospace' -fs 14 -bg #181818 -fg white -cr white -ms white }" >> $XSCHEMRC
+echo "set dark_colors {
+   "#181818" "#00ccee" "#3f3f3f" "#cccccc" "#88dd00"
+   "#bb2200" "#00ccee" "#ff0000" "#ffff00" "#ffffff"
+   "#ff00ff" "#00ff00" "#0000cc" "#aaaa00" "#aaccaa"
+   "#ff7777" "#bfff81" "#00ffcc" "#ce0097" "#d2d46b"
+   "#ef6158" "#fdb200" }" >> $XSCHEMRC
+echo "set local_netlist_dir 1" >> $XSCHEMRC
+
+# Start Xschem with my customized rcfile
+alias x='xschem --rcfile $XSCHEMRC $PDK_ROOT/$PDK/libs.tech/xschem/start_page.sch /foss/designs/cheat-sheet.sch '
+# Always start Klayout in edit mode
+alias k='klayout -e '
+# Make librelane use PDK and PDK_ROOT env variables
+alias liblane='librelane --manual-pdk '
+
+# Customizing xfce4 terminal a bit
+cat > $TERMINALRC <<EOF
+<?xml version="1.0" encoding="UTF-8"?>
+
+<channel name="xfce4-terminal" version="1.0">
+  <property name="scrolling-lines" type="uint" value="50000"/>
+  <property name="font-name" type="string" value="Noto Mono 12"/>
+  <property name="misc-default-geometry" type="string" value="140x36"/>
+</channel>
+EOF
+
+echo "Using PDK $PDK"
+echo "Welcome to octs_testdesign. Glad you're back ☺️"

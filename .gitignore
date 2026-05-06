@@ -1,0 +1,8 @@
+# librelane
+runs/
+
+# xschem
+simulation/
+
+# misc
+xschemrc
