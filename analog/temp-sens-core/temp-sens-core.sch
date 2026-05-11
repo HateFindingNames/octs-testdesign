@@ -6,15 +6,15 @@ S {}
 F {}
 E {}
 B 2 1270 -1070 2070 -670 {flags=graph
-y1=0
-y2=0.01
+y1=27000000
+y2=34000000
 ypos1=0
 ypos2=2
 divy=5
 subdivy=1
 unity=1
-x1=-25
-x2=145
+x1=15
+x2=35
 divx=10
 subdivx=1
 xlabmag=1.0
@@ -23,27 +23,27 @@ dataset=-1
 unitx=1
 logx=0
 logy=0
-sim_type=tran
+sim_type=dc
 autoload=1
 hilight_wave=-1
-sweep=temperature
-color=4
-node=frequency
 vlegend=0
 legend=1
 mode=Line
 hcursor1_y=1.3713607e+08
-}
+color=4
+node=frequency
+rawfile=$netlist_dir/temp-sweep_sens-core.raw
+sweep=temperature}
 B 2 450 -1070 1250 -670 {flags=graph
-y1=-0.041
-y2=1.3
+y1=0
+y2=0.01
 ypos1=0
 ypos2=2
 divy=5
 subdivy=1
 unity=1
-x1=0
-x2=1e-07
+x1=15
+x2=35
 divx=5
 subdivx=1
 xlabmag=1.0
@@ -54,9 +54,10 @@ logx=0
 logy=0
 sim_type=tran
 autoload=1
-sweep=time
+sweep=time25
 color=4
-node=ro_raw}
+node=ro_raw25
+rawfile=$netlist_dir/temp25_wave.raw}
 T {tcleval(deltaf: [to_eng [expr [xschem raw value frequency [expr [xschem raw points 0] - 1] 0] - [xschem raw value frequency 0 0]]]Hz)} 1280 -650 0 0 0.4 0.4 {floater=1}
 N 1230 -500 1250 -500 {lab=vgp}
 N 1230 -550 1230 -500 {lab=vgp}
@@ -193,22 +194,13 @@ N 640 -460 810 -460 {lab=#net20}
 N 640 -480 640 -460 {lab=#net20}
 N 810 -270 810 -230 {lab=#net21}
 N 810 -460 810 -420 {lab=#net20}
-N 110 -430 110 -360 {lab=EN}
-N 110 -430 190 -430 {lab=EN}
-N 920 -540 1070 -540 {lab=EN}
-N 920 -140 1070 -140 {lab=EN_n}
-N 230 -430 230 -410 {lab=EN_n}
-N 190 -430 190 -380 {lab=EN}
-N 230 -510 230 -480 {lab=VDD}
-N 230 -380 230 -350 {lab=0}
-N 230 -430 280 -430 {lab=EN_n}
-N 230 -450 230 -430 {lab=EN_n}
-N 190 -480 190 -430 {lab=EN}
+N 920 -540 1070 -540 {lab=VDD}
+N 920 -140 1070 -140 {lab=0}
 N 1010 -270 1110 -270 {lab=0}
 N 1110 -270 1110 -260 {lab=0}
 N 1010 -420 1110 -420 {lab=VDD}
 N 1110 -430 1110 -420 {lab=VDD}
-N 40 -380 40 -360 {lab=VDD}
+N 110 -380 110 -360 {lab=VDD}
 C {sg13cmos5l_pr/sg13_lv_pmos.sym} 1270 -500 0 0 {name=M1
 l=0.13u
 w=1.5u
@@ -251,13 +243,14 @@ spiceprefix=X
 }
 C {lab_wire.sym} 1150 -500 2 0 {name=p4 sig_type=std_logic lab=vgp}
 C {lab_wire.sym} 1180 -180 0 0 {name=p5 sig_type=std_logic lab=vgn}
-C {vsource.sym} 40 -330 0 0 {name=Vdd value=1.2 savecurrent=false}
+C {vsource.sym} 110 -330 0 0 {name=Vdd value=1.2 savecurrent=false}
 C {gnd.sym} 1010 -90 0 0 {name=l4 lab=0}
 C {title.sym} 160 0 0 0 {name=l6 author="Dennis Hunter"}
 C {devices/launcher.sym} 60 -790 0 0 {name=h3
 descr="Load waves" 
 tclcommand="
-xschem raw_read $netlist_dir/[file rootname [file tail [xschem get current_name]]].raw
+xschem raw_read $netlist_dir/[file rootname [file tail temp25_wave]].raw
+xschem raw_read $netlist_dir/[file rootname [file tail temp-sweep_sens-core]].raw
 xschem setprop rect 2 0 fullxzoom
 "
 }
@@ -299,7 +292,7 @@ w=0.78e-6
 l=0.78e-6
 }
 C {gnd.sym} 110 -100 0 0 {name=l3 lab=0}
-C {gnd.sym} 40 -300 0 0 {name=l1 lab=0}
+C {gnd.sym} 110 -300 0 0 {name=l1 lab=0}
 C {sg13cmos5l_pr/sg13_lv_nmos.sym} 1270 -180 0 0 {name=M4
 l=0.13u
 w=1.5u
@@ -405,7 +398,7 @@ model=sg13_lv_nmos
 spiceprefix=X
 }
 C {vdd.sym} 1010 -570 0 0 {name=l7 lab=VDD}
-C {vdd.sym} 40 -380 0 0 {name=l9 lab=VDD}
+C {vdd.sym} 110 -380 0 0 {name=l9 lab=VDD}
 C {vdd.sym} 110 -190 0 0 {name=l10 lab=VDD}
 C {vdd.sym} 1010 -300 0 0 {name=l11 lab=VDD}
 C {analog/inverter/inverter.sym} 1240 -340 0 0 {name=x1}
@@ -415,9 +408,7 @@ C {analog/inverter/inverter.sym} 1720 -340 0 0 {name=x4}
 C {analog/inverter/inverter.sym} 1880 -340 0 0 {name=x5}
 C {analog/inverter/inverter.sym} 2040 -340 0 0 {name=x6}
 C {analog/inverter/inverter.sym} 2200 -340 0 0 {name=x7}
-C {lab_pin.sym} 110 -380 2 0 {name=p1 sig_type=std_logic lab=EN}
 C {lab_pin.sym} 2420 -340 2 0 {name=p7 sig_type=std_logic lab=ro_raw}
-C {gnd.sym} 110 -300 0 0 {name=l12 lab=0}
 C {simulator_commands.sym} 0 -990 0 0 {name=temp_sweep
 simulator=ngspice
 only_toplevel=false 
@@ -427,38 +418,56 @@ value="
 .option klu
 .control
 
-let temp_start = -25
-let temp_stop = 145
+let temp_start = 15
+let temp_stop = 35
 let temp_delta = 5
+
+* Create one plot that will hold the sweep results
+setplot new
+set scratch = $curplot
+
 compose temperature start=$&temp_start stop=$&temp_stop step=$&temp_delta
 let frequency = vector(length(temperature))
 
 let i = 0
-let temp = temp_start
-while temp le temp_stop
-  option temp=$&temp
+let tcur = temp_start
+while $&tcur le $&temp_stop
+  option temp = $&tcur
 
-  tran 0.05n 100n
+  tran 0.05n 300n
+
   meas tran tperiod \\
-  + TRIG ro_raw VAL=0.6 RISE=2 TD=50n \\
-  + TARG ro_raw VAL=0.6 RISE=3 TD=50n
+  + TRIG v(ro_raw) VAL=0.6 RISE=2 TD=50n \\
+  + TARG v(ro_raw) VAL=0.6 RISE=3 TD=50n
 
-  let frequency[i] = 1/tperiod
+  * Remember the just-created tran plot
+  set dt = $curplot
 
-  let temp = temp + temp_delta
-  let i = i+1
-  if temp eq 25
-    set medplot = $curplot
-    let f = 1/tperiod
+  * Go back to the scratch plot before touching loop variables
+  setplot $scratch
+
+  let frequency[i] = 1/\{$dt\}.tperiod
+
+  if $&tcur eq 25
+    let time25 = \{$dt\}.time
+    let ro_raw25 = \{$dt\}.v(ro_raw)
   end
+
+  let tcur = tcur + temp_delta
+  let i = i+1
 end
-let ro_raw = \{$medplot\}.ro_raw
-let f = \{$medplot\}.f
 
+setplot $scratch
+
+settype temp-sweep temperature
 settype frequency frequency
-settype temperature temperature
+setscale frequency temperature
+write temp-sweep_sens-core.raw temperature frequency
 
-write temp-sens-core.raw temperature frequency time ro_raw
+settype time time25
+settype voltage ro_raw25
+setscale ro_raw25 time25
+write temp25_wave.raw time25 ro_raw25
 .endc
 "
 }
@@ -573,9 +582,6 @@ value=0.2f
 footprint=1206
 device="ceramic capacitor"}
 C {gnd.sym} 2360 -280 0 0 {name=l22 lab=0}
-C {lab_pin.sym} 280 -430 2 0 {name=p2 sig_type=std_logic lab=EN_n}
-C {lab_pin.sym} 920 -540 0 0 {name=p3 sig_type=std_logic lab=EN}
-C {lab_pin.sym} 920 -140 0 0 {name=p6 sig_type=std_logic lab=EN_n}
 C {simulator_commands.sym} 130 -1170 0 0 {name=tff_includes
 simulator=ngspice
 only_toplevel=false 
@@ -583,24 +589,7 @@ value="
 .include /foss/pdks/ihp-sg13cmos5l/libs.ref/sg13cmos5l_stdcell/spice/sg13cmos5l_stdcell.spice
 "
 }
-C {sg13cmos5l_pr/sg13_lv_nmos.sym} 210 -380 0 0 {name=M6
-l=0.13u
-w=1u
-ng=1
-m=1
-model=sg13_lv_nmos
-spiceprefix=X
-}
-C {sg13cmos5l_pr/sg13_lv_pmos.sym} 210 -480 0 0 {name=M7
-l=0.13u
-w=2u
-ng=1
-m=1
-model=sg13_lv_pmos
-spiceprefix=X
-}
-C {gnd.sym} 230 -350 0 0 {name=l5 lab=0}
-C {vdd.sym} 230 -510 0 0 {name=l23 lab=VDD}
-C {vsource.sym} 110 -330 0 0 {name=V2 value=1.2 savecurrent=false}
 C {gnd.sym} 1110 -260 0 0 {name=l24 lab=0}
 C {vdd.sym} 1110 -430 0 0 {name=l25 lab=VDD}
+C {vdd.sym} 920 -540 0 0 {name=l26 lab=VDD}
+C {gnd.sym} 920 -140 0 0 {name=l27 lab=0}
