@@ -6,7 +6,7 @@ S {}
 F {}
 E {}
 B 2 330 -650 1130 -250 {flags=graph
-y1=-0.028
+y1=-0.026
 y2=1.7
 ypos1=0
 ypos2=2
@@ -19,8 +19,9 @@ divx=5
 subdivx=1
 xlabmag=1.0
 ylabmag=1.0
-node=buf_out
-color=4
+node="out
+vp"
+color="4 6"
 dataset=-1
 unitx=1
 logx=0
@@ -28,20 +29,42 @@ logy=0
 autoload=1
 sim_type=tran
 rawfile=$netlist_dir/output_buffer_chain-tb.raw}
-N 500 -190 500 -170 {lab=vp}
-N 710 -220 710 -200 {lab=vdd}
-N 420 -190 420 -170 {lab=vdd}
-N 760 -160 780 -160 {lab=#net1}
-C {analog/output_buffer_chain/output_buffer_chain.sym} 540 -40 0 0 {name=x1}
-C {gnd.sym} 500 -110 0 0 {name=l1 lab=0}
-C {lab_pin.sym} 420 -190 0 0 {name=p1 sig_type=std_logic lab=vdd}
-C {vsource.sym} 500 -140 0 0 {name=V1 value="pulse 0 1.2 0 1n 1n 10n 20n" savecurrent=false}
-C {gnd.sym} 710 -120 0 0 {name=l2 lab=0}
-C {lab_pin.sym} 710 -220 0 0 {name=p2 sig_type=std_logic lab=vdd}
-C {vsource.sym} 420 -140 0 0 {name=V2 value=1.6 savecurrent=false}
-C {gnd.sym} 420 -110 0 0 {name=l3 lab=0}
-C {lab_pin.sym} 500 -190 0 0 {name=p4 sig_type=std_logic lab=vp}
-C {lab_pin.sym} 660 -160 0 0 {name=p3 sig_type=std_logic lab=vp}
+B 2 1160 -650 1960 -250 {flags=graph
+y1=0
+y2=0.01
+ypos1=0
+ypos2=2
+divy=5
+subdivy=1
+unity=1
+x1=10000000
+x2=10000000
+divx=5
+subdivx=4
+xlabmag=1.0
+ylabmag=1.0
+legendmag=1.0
+dataset=-1
+unitx=1
+logx=0
+logy=0
+rawfile=$netlist_dir/output_buffer_chain-tb_ac.raw
+sim_type=ac
+autoload=1
+color="6 5 8"
+node="re(out)
+im(out)
+ph(out)"}
+P 4 1 120 -300 {}
+N 420 -190 420 -170 {lab=vp}
+N 850 -160 1050 -160 {lab=out}
+C {analog/output_buffer_chain/output_buffer_chain.sym} 630 -40 0 0 {name=x1}
+C {gnd.sym} 420 -110 0 0 {name=l1 lab=0}
+C {vsource.sym} 420 -140 0 0 {name=V1 value="pulse 0 1.2 0 1n 1n 10n 20n" savecurrent=false}
+C {vsource.sym} 340 -140 0 0 {name=V2 value=1.6 savecurrent=false}
+C {gnd.sym} 340 -110 0 0 {name=l3 lab=0}
+C {lab_pin.sym} 420 -190 0 0 {name=p4 sig_type=std_logic lab=vp}
+C {lab_pin.sym} 750 -160 0 0 {name=p3 sig_type=std_logic lab=vp}
 C {title.sym} 160 0 0 0 {name=l6 author="Dennis Hunter"}
 C {simulator_commands_shown.sym} 0 -450 0 0 {
 name=Libs_Ngspice
@@ -85,7 +108,7 @@ write_data [save_params] $netlist_dir/[file rootname [file tail [xschem get curr
 xschem netlist
 simulate
 "}
-C {lab_wire.sym} 780 -160 0 1 {name=p7 sig_type=std_logic lab=buf_out}
+C {lab_wire.sym} 1050 -160 0 1 {name=p7 sig_type=std_logic lab=out}
 C {code.sym} 0 -270 0 0 {name=transient only_toplevel=false value="
 .param temp=27
 .control
@@ -94,18 +117,34 @@ tran 0.2n 100n
 * input threshold = 0.6 V  (50% of 1.2 V input swing)
 * output threshold = 0.8 V (50% of 1.6 V supply)
 meas tran tplh trig v(vp)      val=0.6 td=20n rise=1 \\
-+               targ v(buf_out) val=0.8 td=20n rise=1
++               targ v(out) val=0.8 td=20n rise=1
 
 meas tran tphl trig v(vp)      val=0.6 td=20n fall=1 \\
-+               targ v(buf_out) val=0.8 td=20n fall=1
++               targ v(out) val=0.8 td=20n fall=1
 
 * Output rise / fall time (10%..90% of 1.6 V)
-meas tran trise_out trig v(buf_out) val=0.16 td=20n rise=1 \\
-+                    targ v(buf_out) val=1.44 td=20n rise=1
+meas tran trise_out trig v(out) val=0.16 td=20n rise=1 \\
++                    targ v(out) val=1.44 td=20n rise=1
 
-meas tran tfall_out trig v(buf_out) val=1.44 td=20n fall=1 \\
-+                    targ v(buf_out) val=0.16 td=20n fall=1
+meas tran tfall_out trig v(out) val=1.44 td=20n fall=1 \\
++                    targ v(out) val=0.16 td=20n fall=1
 
-write output_buffer_chain-tb.raw
+write output_buffer_chain-tb.raw vp out
+.endc
+"
+}
+C {code.sym} 120 -270 0 0 {name=ac only_toplevel=false value="
+.param temp=27
+.control
+ac dec 1000 10meg 100meg
+*plot db(v(out)) phase(v(out))
+write output_buffer_chain-tb_ac.raw out
 .endc
 "}
+C {capa.sym} 1010 -130 0 0 {name=C1
+m=1
+value=0.2p
+footprint=1206
+device="ceramic capacitor"}
+C {gnd.sym} 1010 -100 0 0 {name=l4 lab=0}
+C {vdd.sym} 340 -170 0 0 {name=l2 lab=VDD}
