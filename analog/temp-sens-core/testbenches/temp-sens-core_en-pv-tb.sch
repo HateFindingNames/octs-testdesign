@@ -27,7 +27,8 @@ sim_type=tran
 autoload=1
 sweep=time
 color=4
-node=ro_raw}
+node=ro_raw
+rawfile=$netlist_dir/temp-sens-core_pvt.raw}
 B 2 390 -1260 1190 -860 {flags=graph
 y1=0
 y2=1.3
@@ -52,7 +53,8 @@ logy=0
 sim_type=tran
 autoload=1
 sweep=time
-digital=1}
+digital=1
+rawfile=$netlist_dir/temp-sens-core_pvt.raw}
 T {tcleval(deltaf: [to_eng [expr [xschem raw value f 0]]]Hz)} 390 -440 0 0 0.4 0.4 {floater=1}
 N 130 -120 130 -110 {lab=0}
 N 110 -110 130 -110 {lab=0}
@@ -156,7 +158,7 @@ meas tran tperiod \\
 
 let f = 1/tperiod
 
-write temp-sens-core_en-behavior.raw time ro_raw en en_n
+write temp-sens-core_pvt.raw time ro_raw en en_n
 .endc
 "
 }
@@ -186,7 +188,7 @@ spiceprefix=X
 }
 C {gnd.sym} 470 -160 0 0 {name=l5 lab=0}
 C {vdd.sym} 470 -320 0 0 {name=l23 lab=VDD}
-C {vsource.sym} 350 -140 0 0 {name=V2 value="pulse 0 1.2 50n 1n 1n 200n 400n" savecurrent=false}
+C {vsource.sym} 350 -140 0 0 {name=V2 value="pulse 0 1.2 50n 1n 1n 50n 100n" savecurrent=false}
 C {lab_pin.sym} 1050 -160 2 0 {name=p7 sig_type=std_logic lab=ro_raw}
 C {vdd.sym} 760 -200 0 0 {name=l2 lab=VDD}
 C {gnd.sym} 760 -120 0 0 {name=l4 lab=0}

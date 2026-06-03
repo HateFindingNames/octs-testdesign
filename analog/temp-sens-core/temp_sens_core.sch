@@ -126,7 +126,7 @@ N 250 -560 250 -540 {lab=#net20}
 N 420 -350 420 -310 {lab=#net21}
 N 420 -540 420 -500 {lab=#net20}
 N 530 -620 680 -620 {lab=ENP}
-N 530 -220 680 -220 {lab=ENN}
+N 640 -220 680 -220 {lab=ENN}
 N 1960 -580 1980 -580 {lab=vgp}
 N 1860 -650 2020 -650 {lab=VDD}
 N 2020 -260 2020 -190 {lab=VSS}
@@ -152,7 +152,7 @@ N 1960 -260 1960 -210 {lab=vgn}
 N 1800 -210 1960 -210 {lab=vgn}
 N 1960 -630 1960 -580 {lab=vgp}
 N 1800 -630 1960 -630 {lab=vgp}
-N 2250 -420 2330 -420 {lab=ro_out}
+N 2360 -420 2420 -420 {lab=ro_out}
 N 2250 -420 2250 -340 {lab=ro_out}
 N 2230 -420 2250 -420 {lab=ro_out}
 N 620 -400 620 -350 {lab=VDD}
@@ -196,6 +196,15 @@ N 1140 -360 1140 -190 {lab=VSS}
 N 1060 -190 1140 -190 {lab=VSS}
 N 980 -360 980 -190 {lab=VSS}
 N 900 -190 980 -190 {lab=VSS}
+N 2360 -420 2360 -290 {lab=ro_out}
+N 2250 -420 2360 -420 {lab=ro_out}
+N 2360 -230 2360 -190 {lab=VSS}
+N 2270 -190 2360 -190 {lab=VSS}
+N 640 -220 640 -170 {lab=ENN}
+N 530 -220 640 -220 {lab=ENN}
+N 640 -170 2300 -170 {lab=ENN}
+N 2300 -260 2300 -170 {lab=ENN}
+N 2300 -260 2320 -260 {lab=ENN}
 C {sg13cmos5l_pr/sg13_lv_pmos.sym} 880 -580 0 0 {name=M1
 l=\{lstarv\}
 w=1.5u
@@ -484,7 +493,7 @@ m=1
 value=\{cpar\}
 footprint=1206
 device="ceramic capacitor"}
-C {opin.sym} 2330 -420 0 0 {name=p2 lab=ro_out sim_pinnumber=3}
+C {opin.sym} 2420 -420 0 0 {name=p2 lab=ro_out sim_pinnumber=3}
 C {iopin.sym} 250 -670 2 0 {name=p3 lab=VDD sim_pinnumber=4}
 C {iopin.sym} 250 -190 2 0 {name=p6 lab=VSS sim_pinnumber=5}
 C {ipin.sym} 530 -620 0 0 {name=p7 lab=ENP sim_pinnumber=1}
@@ -495,4 +504,12 @@ only_toplevel=false
 value="
 .include /foss/pdks/ihp-sg13cmos5l/libs.ref/sg13cmos5l_stdcell/spice/sg13cmos5l_stdcell.spice
 "
+}
+C {sg13cmos5l_pr/sg13_lv_nmos.sym} 2340 -260 0 0 {name=M14
+l=0.13u
+w=0.5u
+ng=1
+m=1
+model=sg13_lv_nmos
+spiceprefix=X
 }
