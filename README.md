@@ -4,6 +4,10 @@ Welcome 👋
 
 In this repository I host all design-files for my self-tought mixed-signal on-chip temperature sensor.
 
+## Layout
+
+![floorplan|400](layout/floorplan/floorplan.svg)
+
 ## Tools
 
 I am using the all-in-one docker container [IIC-OSIC-TOOLS](https://github.com/iic-jku/iic-osic-tools) and [IHPs PDK](https://github.com/IHP-GmbH/IHP-Open-PDK) with the [SG13CMOS5L](https://github.com/IHP-GmbH/ihp-sg13cmos5l) process node - which is nativly included in IIC-OSIC-TOOLS as of tag [2026.04](https://github.com/iic-jku/IIC-OSIC-TOOLS/releases/tag/2026.04).
