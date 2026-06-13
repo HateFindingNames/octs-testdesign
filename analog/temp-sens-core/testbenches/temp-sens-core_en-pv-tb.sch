@@ -28,7 +28,8 @@ autoload=1
 sweep=time
 color=4
 node=ro_raw
-rawfile=$netlist_dir/temp-sens-core_pvt_tt.raw}
+rawfile=$netlist_dir/temp-sens-core_pvt_tt.raw
+linewidth_mult=1}
 B 2 1300 -920 2100 -750 {flags=graph
 y1=0
 y2=4
@@ -57,7 +58,8 @@ digital=1
 rawfile=$netlist_dir/temp-sens-core_pvt_tt.raw
 vlegend=0
 legendmag=1
-legend=0}
+legend=0
+linewidth_mult=1}
 B 2 1300 -510 2100 -290 {flags=graph
 y1=-0.037875
 y2=1.348125
@@ -81,7 +83,8 @@ autoload=1
 sweep=time
 color=4
 node=ro_raw
-rawfile=$netlist_dir/temp-sens-core_pvt_ss.raw}
+rawfile=$netlist_dir/temp-sens-core_pvt_ss.raw
+linewidth_mult=1}
 B 2 1300 -750 2100 -530 {flags=graph
 y1=-0.037875
 y2=1.348125
@@ -105,7 +108,8 @@ autoload=1
 sweep=time
 color=4
 node=ro_raw
-rawfile=$netlist_dir/temp-sens-core_pvt_ff.raw}
+rawfile=$netlist_dir/temp-sens-core_pvt_ff.raw
+linewidth_mult=1}
 T {tcleval(deltaf: [to_eng [expr [xschem raw value f]]]Hz)} 2120 -100 0 0 0.4 0.4 {floater=1}
 N 130 -120 130 -110 {lab=0}
 N 110 -110 130 -110 {lab=0}
@@ -129,9 +133,11 @@ N 760 -190 770 -190 {lab=VDD}
 N 760 -200 760 -190 {lab=VDD}
 N 760 -130 770 -130 {lab=0}
 N 760 -130 760 -120 {lab=0}
-N 1010 -160 1050 -160 {lab=ro_raw}
 N 710 -150 770 -150 {lab=EN_n}
+N 1030 -160 1030 -130 {lab=ro_raw}
+N 1010 -160 1030 -160 {lab=ro_raw}
 N 710 -170 770 -170 {lab=EN}
+N 1030 -160 1050 -160 {lab=ro_raw}
 C {vsource.sym} 280 -140 0 0 {name=Vdd value=1.2 savecurrent=false}
 C {title.sym} 160 0 0 0 {name=l6 author="Dennis Hunter"}
 C {devices/launcher.sym} 60 -330 0 0 {name=h3
@@ -159,7 +165,7 @@ set sim(spice,default) 0
 
 # Create FET .save file
 mkdir -p $netlist_dir
-write_data [save_params] $netlist_dir/[file rootname [file tail [xschem get current_name]]].save
+# write_data [save_params] $netlist_dir/[file rootname [file tail [xschem get current_name]]].save
 
 # run netlist and simulation
 xschem netlist
@@ -187,6 +193,9 @@ C {simulator_commands.sym} 1140 -160 0 0 {name=EN_behavior_tt
 simulator=ngspice
 only_toplevel=false 
 value="
+** ngr_lib cornerMOSlv.lib(mos_tt) mos_tt mos_ff mos_ss
+** ngr_out ro_raw en en_n f
+
 .lib cornerMOSlv.lib mos_tt
 .lib cornerRES.lib res_typ
 
@@ -211,7 +220,8 @@ C {simulator_commands.sym} 0 -520 0 0 {name=tff_includes
 simulator=ngspice
 only_toplevel=false 
 value="
-.include /foss/pdks/ihp-sg13cmos5l/libs.ref/sg13cmos5l_stdcell/spice/sg13cmos5l_stdcell.spice
+** .include /foss/pdks/ihp-sg13cmos5l/libs.ref/sg13cmos5l_stdcell/spice/sg13cmos5l_stdcell.spice
+.include sg13cmos5l_stdcell.spice
 "
 }
 C {sg13cmos5l_pr/sg13_lv_nmos.sym} 450 -190 0 0 {name=M6
@@ -253,8 +263,8 @@ value="
 tran 0.1n 1u
 
 meas tran tperiod \\
-+ TRIG v(ro_raw) VAL=0.9 RISE=2 TD=100n \\
-+ TARG v(ro_raw) VAL=0.9 RISE=3 TD=100n
++ TRIG v(ro_raw) VAL=0.9 RISE=2 TD=60n \\
++ TARG v(ro_raw) VAL=0.9 RISE=3 TD=60n
 
 let f = 1/tperiod
 
@@ -276,8 +286,8 @@ value="
 tran 0.1n 1u
 
 meas tran tperiod \\
-+ TRIG v(ro_raw) VAL=0.9 RISE=2 TD=100n \\
-+ TARG v(ro_raw) VAL=0.9 RISE=3 TD=100n
++ TRIG v(ro_raw) VAL=0.9 RISE=2 TD=60n \\
++ TARG v(ro_raw) VAL=0.9 RISE=3 TD=60n
 
 let f = 1/tperiod
 
@@ -285,3 +295,9 @@ write temp-sens-core_pvt_ff.raw time ro_raw en en_n
 .endc
 "
 spice_ignore=true}
+C {capa.sym} 1030 -100 0 0 {name=C1
+m=1
+value=0.2f
+footprint=1206
+device="ceramic capacitor"}
+C {gnd.sym} 1030 -70 0 0 {name=l7 lab=0}

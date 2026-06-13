@@ -4,6 +4,9 @@ runs/
 # xschem
 simulation/
 
+# ngspice
+.spiceinit
+
 # misc
 xschemrc
 backups/

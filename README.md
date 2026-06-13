@@ -25,20 +25,46 @@ git clone https://github.com/iic-jku/IIC-OSIC-TOOLS.git
 git clone https://gitlab.com/opdkstuff/octs_testdesign.git
 ```
 
+Make some environment variables stick and apply on login:
+
+> [!Note]
+> If not already done, make fish source env variables defined in ``profile.fish`` and ``environment.fish``:
+> ```bash
+> echo 'source $__fish_config_dir/profile.fish' >> "$__fish_config_dir/profile.fish"
+> ```
+
+```bash
+echo 'export DESIGNS="$HOME/chipdesignstuff/octs_testdesign"' >> "$__fish_config_dir/profile.fish"
+echo 'export PDK=ihp-sg13cmos5l' >> "$__fish_config_dir/profile.fish"
+echo 'export PDKPATH=$PDK_ROOT/$PDK' >> "$__fish_config_dir/profile.fish"
+echo 'export STD_CELL_LIBRARY=sg13cmos5l_stdcell' >> "$__fish_config_dir/profile.fish"
+echo 'export KLAYOUT_PATH="$PDKPATH/libs.tech/klayout:$PDKPATH/libs.tech/klayout/tech"' >> "$__fish_config_dir/profile.fish"
+```
+
 💫 Now start the container as instructed with the env variable ``DESIGNS`` pointing to the project repository.
 
----
+### Ngspice Specifics
+
+Copy the PDKs ``.spiceinit`` file to the ``$DESIGNS`` dir and append some customizations:
+
+```bash
+cp $PDK_ROOT/$PDK/libs.tech/ngspice/.spiceinit $DESIGNS/.spiceinit
+echo "setcs sourcepath = (  $sourcepath $DESIGNS )" >> $SPICE_USERINIT_FILE
+```
+
+Make Ngspice load it by setting the env variable:
+
+```bash
+echo "export SPICE_USERINIT_DIR=$DESIGNS" >> "$__fish_config_dir/profile.fish"
+```
+
+
+## QOL
 
 > [!note]
 > I am running an Arch-based Distro. The following are **quality of live** configurations I've made and are not stricktly necessary.
 
 I am starting an stopping the tools **a lot**. So, for a little more convenience, here are some extra configurations to make life easier.
-
-Make the ``DESIGNS`` environment variable stick and apply on login:
-
-```bash
-echo "export DESIGNS="$HOME/chipdesignstuff/octs_testdesign" > "$HOME/.config/fish/config.fish"
-```
 
 In order to comfortably start the container from the Start Menu, create a ``.desktop`` entry at ``$HOME/.local/share/applications/chipdesignstuff.desktop`` with the following content:
 

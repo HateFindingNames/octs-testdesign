@@ -2,20 +2,32 @@
 # !! obsolete as of image version 2026.04 !!
 # export PDK_ROOT="$DESIGNS/IHP-Open-PDK"
 
-export PDK="ihp-sg13cmos5l"
-export PDKPATH="$PDK_ROOT/$PDK"
-export STD_CELL_LIBRARY=sg13cmos5l_stdcell
-export SPICE_USERINIT_DIR=$PDKPATH/libs.tech/ngspice
+export PDK=ihp-sg13cmos5l
+export PDKPATH=$PDK_ROOT/$PDK
+export STD_CELL_LIBRARY="sg13cmos5l_stdcell"
 export KLAYOUT_PATH=$PDKPATH/libs.tech/klayout:$PDKPATH/libs.tech/klayout/tech
 
-export XSCHEMRC="$DESIGNS/xschemrc"
+export XSCHEMRC=$DESIGNS/xschemrc
 export TERMINALRC="/$HOME/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-terminal.xml"
 
+export SPICE_USERINIT_DIR=$DESIGNS
+export SPICE_USERINIT_FILE=$SPICE_USERINIT_DIR/.spiceinit
+
+# Building .spiceinit file
+# ======================================================
+if [ ! -f "$SPICE_USERINIT_FILE" ]; then
+   touch $SPICE_USERINIT_FILE;
+fi
+
+cat $PDKPATH/libs.tech/ngspice/.spiceinit > $SPICE_USERINIT_FILE
+echo 'setcs sourcepath = (  $sourcepath "$DESIGNS" )' >> $SPICE_USERINIT_FILE
+
+# Building xschemrc file
+# ======================================================
 if [ ! -f "$XSCHEMRC" ]; then
    touch $XSCHEMRC;
 fi
 
-# Building xschemrc file
 cat $PDKPATH/libs.tech/xschem/xschemrc > $XSCHEMRC
 echo "set dircolor([file dirname [info script]]) green" >> $XSCHEMRC
 echo "set editor { xterm -geometry 100x40 -e nano }" >> $XSCHEMRC

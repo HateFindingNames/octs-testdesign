@@ -502,7 +502,8 @@ C {simulator_commands.sym} 240 -860 0 0 {name=tff_includes
 simulator=ngspice
 only_toplevel=false 
 value="
-.include /foss/pdks/ihp-sg13cmos5l/libs.ref/sg13cmos5l_stdcell/spice/sg13cmos5l_stdcell.spice
+**.include /foss/pdks/ihp-sg13cmos5l/libs.ref/sg13cmos5l_stdcell/spice/sg13cmos5l_stdcell.spice
+.include sg13cmos5l_stdcell.spice
 "
 }
 C {sg13cmos5l_pr/sg13_lv_nmos.sym} 2340 -260 0 0 {name=M14
