@@ -498,14 +498,6 @@ C {iopin.sym} 250 -670 2 0 {name=p3 lab=VDD sim_pinnumber=4}
 C {iopin.sym} 250 -190 2 0 {name=p6 lab=VSS sim_pinnumber=5}
 C {ipin.sym} 530 -620 0 0 {name=p7 lab=ENP sim_pinnumber=1}
 C {ipin.sym} 530 -220 0 0 {name=p1 lab=ENN sim_pinnumber=2}
-C {simulator_commands.sym} 240 -860 0 0 {name=tff_includes
-simulator=ngspice
-only_toplevel=false 
-value="
-**.include /foss/pdks/ihp-sg13cmos5l/libs.ref/sg13cmos5l_stdcell/spice/sg13cmos5l_stdcell.spice
-.include sg13cmos5l_stdcell.spice
-"
-}
 C {sg13cmos5l_pr/sg13_lv_nmos.sym} 2340 -260 0 0 {name=M14
 l=0.13u
 w=0.5u
