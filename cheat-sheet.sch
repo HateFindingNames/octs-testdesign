@@ -111,3 +111,30 @@ C {ipin.sym} 830 -250 0 0 {name=p2 lab=xxx}
 C {opin.sym} 780 -220 0 0 {name=p3 lab=xxx}
 C {iopin.sym} 780 -190 0 0 {name=p4 lab=xxx}
 C {vsource.sym} 800 -130 0 0 {name=V3 value="pwl T1 V1 T2 V2 ... r= td=" savecurrent=false}
+C {launcher.sym} 350 -170 0 0 {name=h1
+descr=RunNGRUN.py
+tclcommand="
+xschem netlist
+
+set sch_file [xschem get current_name]
+set sch_dir [file dirname $sch_file]
+set sch_base [file rootname [file tail $sch_file]]
+set netlist [file join $sch_dir simulation $\{sch_base\}.spice]
+
+set script $env(DESIGNS)/ngrun.py
+set logfile [file join $sch_dir simulation ngrun.log]
+
+if \{![file exists $netlist]\} \{
+    tk_messageBox -icon error -message \\"Netlist not found:\\n$netlist\\"
+    return
+\}
+
+if \{![file exists $script]\} \{
+    tk_messageBox -icon error -message \\"Python script not found:\\n$script\\"
+    return
+\}
+
+exec \{*\}$terminal -lc -u8 -hold -e sh -c \{
+  python3 -u "$1" -k -j 1 "$2" 2>&1 | tee "$3"
+\} sh $script $netlist $logfile &
+"}

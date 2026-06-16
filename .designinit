@@ -11,7 +11,10 @@ export XSCHEMRC=$DESIGNS/xschemrc
 export TERMINALRC="/$HOME/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-terminal.xml"
 
 export SPICE_USERINIT_DIR=$DESIGNS
-export SPICE_USERINIT_FILE=$SPICE_USERINIT_DIR/.spiceinit
+export SPICE_USERINIT_FILE=$DESIGNS/.spiceinit
+
+export LC_ALL=en_US.utf8
+export LANG=en_US.utf8
 
 # Building .spiceinit file
 # ======================================================
@@ -19,8 +22,12 @@ if [ ! -f "$SPICE_USERINIT_FILE" ]; then
    touch $SPICE_USERINIT_FILE;
 fi
 
-cat $PDKPATH/libs.tech/ngspice/.spiceinit > $SPICE_USERINIT_FILE
+echo 'echo SPECIAL SPICEINIT LOADED' > $SPICE_USERINIT_FILE
+cat $PDKPATH/libs.tech/ngspice/.spiceinit >> $SPICE_USERINIT_FILE
 echo 'setcs sourcepath = (  $sourcepath "$DESIGNS" )' >> $SPICE_USERINIT_FILE
+# echo 'set ngbehavior=hsa' >> $SPICE_USERINIT_FILE
+# echo 'set ng_nomodcheck' >> $SPICE_USERINIT_FILE
+echo 'set num_threads=8' >> $SPICE_USERINIT_FILE
 
 # Building xschemrc file
 # ======================================================
@@ -32,7 +39,8 @@ cat $PDKPATH/libs.tech/xschem/xschemrc > $XSCHEMRC
 echo "set dircolor([file dirname [info script]]) green" >> $XSCHEMRC
 echo "set editor { xterm -geometry 100x40 -e nano }" >> $XSCHEMRC
 # echo "set terminal {xterm -geometry 120x48 -fn 9x15 -fs 11 -bg #181818 -fg white -cr white -ms white }" >> $XSCHEMRC
-echo "set terminal {xterm -geometry 120x48 -fa 'Monospace' -fs 14 -bg #181818 -fg white -cr white -ms white }" >> $XSCHEMRC
+# echo "set terminal {xterm -geometry 120x48 -fa 'Monospace' -fs 14 -bg #181818 -fg white -cr white -ms white -u8}" >> $XSCHEMRC
+echo "set terminal {xterm -geometry 120x48 -fs 14 -bg #181818 -fg white -cr white -ms white -u8}" >> $XSCHEMRC
 echo "set dark_colors {
    "#181818" "#00ccee" "#3f3f3f" "#cccccc" "#88dd00"
    "#bb2200" "#00ccee" "#ff0000" "#ffff00" "#ffffff"
