@@ -33,12 +33,13 @@ vvp sim/div16_tb.out
 > [!IMPORTANT]
 > The option ``-g2012`` tells ``iverilog`` to read the input file as SystemVerilog.
 
-This produces the files ``div16_tb.out`` and ``div16_tb.vcd`` inside ``src/`` and prints something like a truth table to the terminal. Viewing the waveforms with ``GTKWave``:
+This produces the files ``div16_tb.out`` and ``div16_tb.vcd`` inside ``src/`` and prints a truth table to the terminal. Viewing the waveforms with ``GTKWave``:
 ```sh
 gtkwave sim/div16_tb.vcd
 ```
 
-![[assets/waveform.png]]
+![waveform](assets/waveform.png)
+
 Looks good!
 
 ## Simulation/Integration in ``xschem``

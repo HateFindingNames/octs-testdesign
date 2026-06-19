@@ -30,10 +30,12 @@ module div16_tb;
     // Stimulus:
     // Apply reset, then release it, then let it run
     initial begin
-        meas_en = 1;           // hold meas_en active
-        #12;                   // wait 12ns
-        meas_en = 0;           // release meas_en
-        #100;                // let simulation run for 100ns
+        meas_en = 1;           // hold meas_en high
+        #12;                   // wait 20ns
+        meas_en = 0;           // set meas_en low
+        #200;                // let simulation run for 100ns
+        meas_en = 1;           // hold meas_en high again
+        #12;                   // wait 20ns
         $finish;
     end
 

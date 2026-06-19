@@ -31,8 +31,8 @@ module div16 (
 
     assign kill = ~meas_en;
 
-    tff tff0 ( // Create a tff instance called u0
-        .clk_in (clk_in), // Wire u0 clk_in signal to div16 modules clk_in signal
+    tff tff0 ( // Create a tff instance called tff0
+        .clk_in (clk_in), // Wire tff0 clk_in signal to div16 modules clk_in signal
         .kill (kill),
         .clk_out (q0)
     );
