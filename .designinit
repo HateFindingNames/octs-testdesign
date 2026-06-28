@@ -6,6 +6,7 @@ export PDK=ihp-sg13cmos5l
 export PDKPATH=$PDK_ROOT/$PDK
 export STD_CELL_LIBRARY="sg13cmos5l_stdcell"
 export KLAYOUT_PATH=$PDKPATH/libs.tech/klayout:$PDKPATH/libs.tech/klayout/tech
+export KLAYOUT_HOME=$DESIGNS/.klayout
 
 export XSCHEMRC=$DESIGNS/xschemrc
 export TERMINALRC="/$HOME/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-terminal.xml"
@@ -15,6 +16,7 @@ export SPICE_USERINIT_FILE=$DESIGNS/.spiceinit
 
 export LC_ALL=en_US.utf8
 export LANG=en_US.utf8
+
 
 # Building .spiceinit file
 # ======================================================
@@ -28,6 +30,7 @@ echo 'setcs sourcepath = (  $sourcepath "$DESIGNS" )' >> $SPICE_USERINIT_FILE
 # echo 'set ngbehavior=hsa' >> $SPICE_USERINIT_FILE
 # echo 'set ng_nomodcheck' >> $SPICE_USERINIT_FILE
 echo 'set num_threads=4' >> $SPICE_USERINIT_FILE
+
 
 # Building xschemrc file
 # ======================================================
@@ -54,7 +57,9 @@ alias k='klayout -e '
 # Make librelane use PDK and PDK_ROOT env variables
 alias liblane='librelane --manual-pdk '
 
-# Customizing xfce4 terminal a bit
+
+# Customizing xfce4 terminal
+# ======================================================
 cat > $TERMINALRC <<EOF
 <?xml version="1.0" encoding="UTF-8"?>
 
