@@ -9,6 +9,14 @@ In this repository I host all design-files for my self-tought mixed-signal on-ch
 
 ![floorplan|400](layout/img/floorplan.svg)
 
+|                |                 |
+| -------------- | --------------- |
+| **Category**   | Mixed-Signal    |
+| **Technology** | IHP SG13CMOS5L  |
+| **Top Cell**   | `OCTS`          |
+| **Die Size**   | 1.0 mm × 1.0 mm |
+| **License**    | Apache-2.0      |
+
 
 ### Current Starved RO
 
@@ -116,4 +124,18 @@ TerminalOptions=
 Type=Application
 X-KDE-SubstituteUID=false
 X-KDE-Username=
+```
+
+---
+
+# LICENSE
+
+Licensed under the Apache License 2.0.
+
+```
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
 ```
